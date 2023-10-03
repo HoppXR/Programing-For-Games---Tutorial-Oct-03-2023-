@@ -20,6 +20,11 @@ public static class InputManager
         {
             myPlayer.PlayerJump(ctx.ReadValue<Vector3>());
         };
+
+        _gameControls.InGame.Stealth.performed += ctx =>
+        {
+            myPlayer.StealthMode(ctx.ReadValue<Vector3>());
+        };
     }
 
     public static void SetGameControls()
