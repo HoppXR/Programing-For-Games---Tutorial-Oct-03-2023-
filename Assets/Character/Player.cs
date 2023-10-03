@@ -7,11 +7,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     private Vector3 _moveDirection;
 
+    Rigidbody rb;
+    [SerializeField] private float jumpSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
         InputManager.Init(this);
         InputManager.SetGameControls();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -23,5 +27,10 @@ public class Player : MonoBehaviour
     public void SetMovementDirection(Vector3 currentDirection)
     {
         _moveDirection = currentDirection;
+    }
+
+    public void PlayerJump(Vector3 currentDirection)
+    {
+        rb.velocity = new Vector3(rb.velocity.x,jumpSpeed,rb.velocity.z);
     }
 }
