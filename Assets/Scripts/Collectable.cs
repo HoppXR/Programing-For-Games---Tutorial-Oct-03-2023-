@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    public int Score = 0;
+    static int Score = 0;
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")

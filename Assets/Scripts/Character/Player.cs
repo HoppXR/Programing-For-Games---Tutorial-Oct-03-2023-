@@ -62,13 +62,13 @@ public class Player : MonoBehaviour
             if (!isCrouched)
             {
                 isCrouched = true;
-                speed = 4;
+                speed /= 2;
                 Debug.Log("Stealth Mode On");
             }
             else
             {
                 isCrouched = false;
-                speed = 8;
+                speed *= 2;
                 Debug.Log("Stealth Mode Off");
             }
         }
