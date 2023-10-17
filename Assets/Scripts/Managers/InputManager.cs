@@ -25,6 +25,18 @@ public static class InputManager
         {
             myPlayer.StealthMode(ctx.ReadValue<Vector3>());
         };
+
+        _gameControls.InGame.Look.performed += ctx =>
+        {
+            myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
+        };
+
+        /*_gameControls.InGame.started += ctx =>
+        {
+
+        };*/
+
+        _gameControls.Permanent.Enable();
     }
 
     public static void SetGameControls()
