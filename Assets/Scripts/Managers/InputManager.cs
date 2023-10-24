@@ -31,10 +31,10 @@ public static class InputManager
             myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
         };
 
-        /*_gameControls.InGame.started += ctx =>
+        _gameControls.InGame.Shoot.started += ctx =>
         {
-
-        };*/
+            myPlayer.Shoot();
+        };
 
         _gameControls.Permanent.Enable();
     }

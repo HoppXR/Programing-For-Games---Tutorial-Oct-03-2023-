@@ -251,7 +251,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &33757917
 MonoBehaviour:
@@ -272,6 +272,8 @@ MonoBehaviour:
   minViewAngle: -50
   maxViewAngle: 50
   followTarget: {fileID: 379860154}
+  bulletPrefab: {fileID: 7304368033429113163, guid: 4092a695dddb01249b10d07e375fde22, type: 3}
+  projectileForce: 30
 --- !u!65 &33757919
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -291,8 +293,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.13524894, y: 0.20180169, z: 0.12360165}
-  m_Center: {x: -0.0000026464463, y: 0.100007676, z: -0.00024817287}
+  m_Size: {x: 0.13219622, y: 0.19845486, z: 0.060848843}
+  m_Center: {x: -0.00014967918, y: 0.09833427, z: -0.0065234425}
 --- !u!114 &33757920
 MonoBehaviour:
   m_ObjectHideFlags: 0

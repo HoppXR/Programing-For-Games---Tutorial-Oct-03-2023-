@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     private Vector2 currentRotation;
 
+    [Header("Camera")]
     [SerializeField, Range(1,20)] private float mouseSensX;
     [SerializeField, Range(1,20)] private float mouseSensY;
 
@@ -20,6 +21,10 @@ public class Player : MonoBehaviour
     [SerializeField, Range(0,90)] private float maxViewAngle;
 
     [SerializeField] private Transform followTarget;
+
+    [Header("Shooting")]
+    [SerializeField] private Rigidbody bulletPrefab;
+    [SerializeField] private float projectileForce;
 
     private Vector2 currentAngle;
 
@@ -43,7 +48,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += speed * Time.deltaTime * _moveDirection;
+        transform.position += followTarget.rotation * (speed * Time.deltaTime * _moveDirection);
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y);
     }
 
@@ -101,8 +106,10 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
-        isAttacking = isAttacking;
-        if (isAttacking) Weapon.StartAttack();
-        else Weapon.EndAttack();
+        Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
+        currentProjectile.AddForce(followTarget.forward * projectileForce, ForceMode.Impulse);
+
+        Destroy(currentProjectile.gameObject, 4);
     }
 }

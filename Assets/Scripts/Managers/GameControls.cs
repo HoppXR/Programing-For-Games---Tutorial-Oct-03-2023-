@@ -56,7 +56,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Shoot"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""7c461abf-92c8-413f-9126-764ba11a3258"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -189,18 +189,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""id"": ""21a80c0c-e290-4638-a0d1-940d8529e0c4"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1775e6d9-51a4-4c02-b59d-f06d9b0f5507"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""InvertVector2(invertX=false)"",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": false,
