@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -100,6 +101,8 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
-
+        isAttacking = isAttacking;
+        if (isAttacking) Weapon.StartAttack();
+        else Weapon.EndAttack();
     }
 }
