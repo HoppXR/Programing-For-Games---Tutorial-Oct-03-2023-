@@ -27,15 +27,14 @@ public class Collectable : MonoBehaviour
         
     }
 
-    /*
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")
         {
             Destroy(gameObject);
-            Score++;
-            Debug.Log("Score: " + Score);
+            score++;
+            Debug.Log("Score: " + score);
         }
     }
-    */
 }

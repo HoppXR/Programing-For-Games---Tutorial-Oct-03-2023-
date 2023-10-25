@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -26,6 +28,25 @@ public class Player : MonoBehaviour
     [SerializeField] private Rigidbody bulletPrefab;
     [SerializeField] private float projectileForce;
 
+    [Header("Player UI")]
+    [SerializeField] private Image healthBar;
+    [SerializeField] private TextMeshProUGUI ammoCounter;
+
+    [SerializeField] private float maxHealth;
+    [SerializeField] private int maxAmmo;
+    private float currentAmmo;
+    private float _health;
+
+    private float Health
+    {
+        get => _health;
+        set
+        {
+            _health = value;
+            healthBar.fillAmount = _health / maxHealth;
+        }
+    }
+
     private Vector2 currentAngle;
 
     bool isCrouched;
@@ -43,13 +64,18 @@ public class Player : MonoBehaviour
 
         InputManager.Init(this);
         InputManager.SetGameControls();
+
+        Health = maxHealth;
+        currentAmmo = maxAmmo;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += followTarget.rotation * (speed * Time.deltaTime * _moveDirection);
+        transform.position += transform.rotation * (speed * Time.deltaTime * _moveDirection);
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y);
+
+        Health -= Time.deltaTime * 2;
     }
 
     public void SetMovementDirection(Vector3 currentDirection)
@@ -106,10 +132,23 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
-        Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        if (currentAmmo > 0)
+        {
+            Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-        currentProjectile.AddForce(followTarget.forward * projectileForce, ForceMode.Impulse);
+            currentProjectile.AddForce(followTarget.forward * projectileForce, ForceMode.Impulse);
 
-        Destroy(currentProjectile.gameObject, 4);
+            --currentAmmo;
+
+            ammoCounter.text = currentAmmo.ToString();
+
+            Destroy(currentProjectile.gameObject, 4);
+        }
+    }
+
+    public void Reload()
+    {
+        currentAmmo = maxAmmo;
+        ammoCounter.text = currentAmmo.ToString();
     }
 }
