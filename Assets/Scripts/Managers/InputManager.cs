@@ -5,9 +5,21 @@ using UnityEngine;
 public static class InputManager
 {
     private static GameControls _gameControls;
+
+    private static Vector3 _mousePos;
+
+    private static Camera cam;
+
+    public static Ray GetCameraRay()
+    {
+        return cam.ScreenPointToRay(_mousePos);
+    }
+
     public static void Init(Player myPlayer)
     {
         _gameControls = new GameControls();
+        cam = Camera.main;
+
 
         _gameControls.Permanent.Enable();
 
@@ -28,10 +40,12 @@ public static class InputManager
 
         _gameControls.InGame.Look.performed += ctx =>
         {
-            myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
+            _mousePos = ctx.ReadValue<Vector2>();
+            
+            //myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
         };
 
-        _gameControls.InGame.Shoot.started += ctx =>
+        _gameControls.InGame.Shoot.performed += ctx =>
         {
             myPlayer.Shoot();
         };

@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private WeaponBase myWeapon;
+    private bool weaponShootToggle;
+    
     Rigidbody rb;
 
     [SerializeField] private float speed;
@@ -132,6 +135,7 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
+        /*
         if (currentAmmo > 0)
         {
             Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
@@ -144,6 +148,12 @@ public class Player : MonoBehaviour
 
             Destroy(currentProjectile.gameObject, 4);
         }
+        */
+
+        print("I shot: " + InputManager.GetCameraRay());
+        weaponShootToggle = !weaponShootToggle;
+        if(weaponShootToggle) myWeapon.StartShooting();
+        else myWeapon.StopShooting();
     }
 
     public void Reload()

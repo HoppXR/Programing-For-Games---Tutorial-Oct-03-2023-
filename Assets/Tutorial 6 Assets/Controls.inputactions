@@ -1,0 +1,62 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "InGame",
+            "id": "af89a6d8-06a9-43a6-8ef1-54a218216a33",
+            "actions": [
+                {
+                    "name": "Shoot",
+                    "type": "PassThrough",
+                    "id": "daca5b6c-a432-412b-84d0-1ecdf8ddc1df",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6795d53b-4c77-4c2a-996f-1b08db15dd57",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Permenanet",
+            "id": "8a05f712-4fac-43bf-82ab-5cb828d08c7b",
+            "actions": [
+                {
+                    "name": "MousePos",
+                    "type": "PassThrough",
+                    "id": "60539386-db1f-4c0d-81f0-651d7745845d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "29d64221-5988-4e23-8285-35d1a567aa09",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

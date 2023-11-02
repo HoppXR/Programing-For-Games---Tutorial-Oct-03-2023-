@@ -56,7 +56,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Shoot"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""7c461abf-92c8-413f-9126-764ba11a3258"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -185,7 +185,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""49c0a2d1-2dcd-43d7-a361-98b2ac19d7f2"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
