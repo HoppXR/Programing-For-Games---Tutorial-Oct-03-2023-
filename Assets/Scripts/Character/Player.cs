@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private WeaponBase myWeapon;
+    //[SerializeField] private WeaponBase myWeapon;
     private bool weaponShootToggle;
     
     Rigidbody rb;
@@ -150,11 +150,13 @@ public class Player : MonoBehaviour
         }
         */
 
+        /*
         print("I shot: " + InputManager.GetCameraRay());
         weaponShootToggle = !weaponShootToggle;
         if(weaponShootToggle) myWeapon.StartShooting();
         else myWeapon.StopShooting();
-    }
+        */
+    }   
 
     public void Reload()
     {
