@@ -32,14 +32,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float projectileForce;
 
     [Header("Player UI")]
-    [SerializeField] private Image healthBar;
+    //[SerializeField] private Image healthBar;
     [SerializeField] private TextMeshProUGUI ammoCounter;
 
-    [SerializeField] private float maxHealth;
+    //[SerializeField] private float maxHealth;
     [SerializeField] private int maxAmmo;
     private float currentAmmo;
-    private float _health;
+    //private float _health;
 
+    /*
     private float Health
     {
         get => _health;
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
             healthBar.fillAmount = _health / maxHealth;
         }
     }
+    */
 
     private Vector2 currentAngle;
 
@@ -63,13 +65,14 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Reload();
+        
         rb = GetComponent<Rigidbody>();
 
         InputManager.Init(this);
         InputManager.SetGameControls();
 
-        Health = maxHealth;
-        currentAmmo = maxAmmo;
+        //Health = maxHealth;
     }
 
     // Update is called once per frame
@@ -78,7 +81,7 @@ public class Player : MonoBehaviour
         transform.position += transform.rotation * (speed * Time.deltaTime * _moveDirection);
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y);
 
-        Health -= Time.deltaTime * 2;
+        //Health -= Time.deltaTime * 2;
     }
 
     public void SetMovementDirection(Vector3 currentDirection)
@@ -135,7 +138,6 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
-        /*
         if (currentAmmo > 0)
         {
             Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
@@ -148,7 +150,6 @@ public class Player : MonoBehaviour
 
             Destroy(currentProjectile.gameObject, 4);
         }
-        */
 
         /*
         print("I shot: " + InputManager.GetCameraRay());

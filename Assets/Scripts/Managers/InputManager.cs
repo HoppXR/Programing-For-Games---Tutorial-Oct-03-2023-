@@ -40,9 +40,7 @@ public static class InputManager
 
         _gameControls.InGame.Look.performed += ctx =>
         {
-            _mousePos = ctx.ReadValue<Vector2>();
-            
-            //myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
+            myPlayer.SetLookRotation(ctx.ReadValue<Vector2>());
         };
 
         _gameControls.InGame.Shoot.performed += ctx =>
