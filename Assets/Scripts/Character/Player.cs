@@ -2,17 +2,30 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    //[SerializeField] private WeaponBase myWeapon;
-    private bool weaponShootToggle;
-    
     Rigidbody rb;
 
+    [Header("Weapons")]
+    private float selectedWeapon;
+    private string currentWeapon;
+    
+    [SerializeField] private WeaponBase semiWeapon;
+    [SerializeField] private WeaponBase burstWeapon;
+    [SerializeField] private WeaponBase shotgunWeapon;
+    [SerializeField] private WeaponBase laserWeapon;
+
+    [SerializeField] private int maxAmmo;
+    private float currentAmmo;
+    private float consumedAmmo;
+    [SerializeField] private float reserveAmmo;
+
+    [Header("Movement")]
     [SerializeField] private float speed;
     [SerializeField] private float jump;
 
@@ -27,17 +40,18 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Transform followTarget;
 
-    [Header("Shooting")]
-    [SerializeField] private Rigidbody bulletPrefab;
-    [SerializeField] private float projectileForce;
+    //[Header("Shooting")]
+    //[SerializeField] private Rigidbody bulletPrefab;
+    //[SerializeField] private float projectileForce;
 
     [Header("Player UI")]
     //[SerializeField] private Image healthBar;
     [SerializeField] private TextMeshProUGUI ammoCounter;
+    [SerializeField] private TextMeshProUGUI reserveCounter;
+    [SerializeField] private TextMeshProUGUI weaponInfo;
 
     //[SerializeField] private float maxHealth;
-    [SerializeField] private int maxAmmo;
-    private float currentAmmo;
+    
     //private float _health;
 
     /*
@@ -80,6 +94,8 @@ public class Player : MonoBehaviour
     {
         transform.position += transform.rotation * (speed * Time.deltaTime * _moveDirection);
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y);
+
+        ChangeWeapon();
 
         //Health -= Time.deltaTime * 2;
     }
@@ -140,6 +156,31 @@ public class Player : MonoBehaviour
     {
         if (currentAmmo > 0)
         {
+            --currentAmmo;
+            ++consumedAmmo;
+
+            if(selectedWeapon == 1)
+            {
+                semiWeapon.StartShooting();
+                ammoCounter.text = currentAmmo.ToString();
+            }
+            else if(selectedWeapon == 2)
+            {
+                burstWeapon.StartShooting();
+                ammoCounter.text = currentAmmo.ToString();
+            }
+            else if(selectedWeapon == 3)
+            {
+                shotgunWeapon.StartShooting();
+                ammoCounter.text = currentAmmo.ToString();
+            }
+            else if(selectedWeapon == 4)
+            {
+                laserWeapon.StartShooting();
+                ammoCounter.text = currentAmmo.ToString();
+            }
+            
+            /*
             Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
             currentProjectile.AddForce(followTarget.forward * projectileForce, ForceMode.Impulse);
@@ -149,6 +190,7 @@ public class Player : MonoBehaviour
             ammoCounter.text = currentAmmo.ToString();
 
             Destroy(currentProjectile.gameObject, 4);
+            */
         }
 
         /*
@@ -161,7 +203,38 @@ public class Player : MonoBehaviour
 
     public void Reload()
     {
-        currentAmmo = maxAmmo;
-        ammoCounter.text = currentAmmo.ToString();
+        if(reserveAmmo > 0)
+        {
+            currentAmmo = maxAmmo;
+            reserveAmmo -= consumedAmmo;
+            ammoCounter.text = currentAmmo.ToString();
+            reserveCounter.text = reserveAmmo.ToString();
+        }
+    }
+
+    public void ChangeWeapon()
+    {
+        weaponInfo.text = currentWeapon;
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedWeapon = 1;
+            currentWeapon = "Semi Auto Weapon";
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectedWeapon = 2;
+            currentWeapon = "Burst Fire Weapon";
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectedWeapon = 3;
+            currentWeapon = "Shotgun Weapon";
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            selectedWeapon = 4;
+            currentWeapon = "Laser Weapon";
+        }
     }
 }
