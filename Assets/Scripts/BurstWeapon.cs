@@ -15,16 +15,16 @@ public class BurstWeapon : WeaponBase
     {
         delay = new WaitForSeconds(burstDelay);
         StartCoroutine(Burst(percent));
+        
+        GetComponent<AudioSource>().Play();
     }
 
     private IEnumerator Burst(float percent)
     {
         for (int i = 0; i < burstCount; i++)
         {
-            Vector3 playerForward = transform.forward;
-
             Rigidbody rb = Instantiate(bullet, transform.position, transform.rotation);
-            rb.AddForce(Mathf.Max(percent, 0.1f) * force * playerForward, ForceMode.Impulse);
+            rb.AddForce(Mathf.Max(percent, 0.1f) * force * transform.forward, ForceMode.Impulse);
             Destroy(rb.gameObject, 4);
 
             yield return delay;

@@ -80,6 +80,33 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SemiWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c32b651-946b-4ac4-b552-de509f13f1e1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""BurstWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ce85428-e02c-42db-83a7-70def8cd2f7a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShotgunWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""cd5b3558-a5b9-4cf4-922d-27a89fce227c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -214,6 +241,39 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90f9be60-c2a4-40b1-a178-50c2f1a4d46e"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SemiWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b6d1a34-afd0-463d-9518-2f95fe2e1626"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BurstWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""abe7fe29-ce10-4d5f-a49d-9f17a50d7ba1"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShotgunWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -284,6 +344,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_InGame_Shoot = m_InGame.FindAction("Shoot", throwIfNotFound: true);
         m_InGame_Look = m_InGame.FindAction("Look", throwIfNotFound: true);
         m_InGame_Reload = m_InGame.FindAction("Reload", throwIfNotFound: true);
+        m_InGame_SemiWeapon = m_InGame.FindAction("SemiWeapon", throwIfNotFound: true);
+        m_InGame_BurstWeapon = m_InGame.FindAction("BurstWeapon", throwIfNotFound: true);
+        m_InGame_ShotgunWeapon = m_InGame.FindAction("ShotgunWeapon", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -357,6 +420,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Shoot;
     private readonly InputAction m_InGame_Look;
     private readonly InputAction m_InGame_Reload;
+    private readonly InputAction m_InGame_SemiWeapon;
+    private readonly InputAction m_InGame_BurstWeapon;
+    private readonly InputAction m_InGame_ShotgunWeapon;
     public struct InGameActions
     {
         private @GameControls m_Wrapper;
@@ -367,6 +433,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         public InputAction @Shoot => m_Wrapper.m_InGame_Shoot;
         public InputAction @Look => m_Wrapper.m_InGame_Look;
         public InputAction @Reload => m_Wrapper.m_InGame_Reload;
+        public InputAction @SemiWeapon => m_Wrapper.m_InGame_SemiWeapon;
+        public InputAction @BurstWeapon => m_Wrapper.m_InGame_BurstWeapon;
+        public InputAction @ShotgunWeapon => m_Wrapper.m_InGame_ShotgunWeapon;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -394,6 +463,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @SemiWeapon.started += instance.OnSemiWeapon;
+            @SemiWeapon.performed += instance.OnSemiWeapon;
+            @SemiWeapon.canceled += instance.OnSemiWeapon;
+            @BurstWeapon.started += instance.OnBurstWeapon;
+            @BurstWeapon.performed += instance.OnBurstWeapon;
+            @BurstWeapon.canceled += instance.OnBurstWeapon;
+            @ShotgunWeapon.started += instance.OnShotgunWeapon;
+            @ShotgunWeapon.performed += instance.OnShotgunWeapon;
+            @ShotgunWeapon.canceled += instance.OnShotgunWeapon;
         }
 
         private void UnregisterCallbacks(IInGameActions instance)
@@ -416,6 +494,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @SemiWeapon.started -= instance.OnSemiWeapon;
+            @SemiWeapon.performed -= instance.OnSemiWeapon;
+            @SemiWeapon.canceled -= instance.OnSemiWeapon;
+            @BurstWeapon.started -= instance.OnBurstWeapon;
+            @BurstWeapon.performed -= instance.OnBurstWeapon;
+            @BurstWeapon.canceled -= instance.OnBurstWeapon;
+            @ShotgunWeapon.started -= instance.OnShotgunWeapon;
+            @ShotgunWeapon.performed -= instance.OnShotgunWeapon;
+            @ShotgunWeapon.canceled -= instance.OnShotgunWeapon;
         }
 
         public void RemoveCallbacks(IInGameActions instance)
@@ -533,6 +620,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnSemiWeapon(InputAction.CallbackContext context);
+        void OnBurstWeapon(InputAction.CallbackContext context);
+        void OnShotgunWeapon(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

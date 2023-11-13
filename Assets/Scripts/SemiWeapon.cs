@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SemiWeapon : WeaponBase
@@ -9,10 +10,10 @@ public class SemiWeapon : WeaponBase
 
     protected override void Attack(float percent)
     {
-        Vector3 playerForward = transform.forward;
-
         Rigidbody rb = Instantiate(bullet, transform.position, transform.rotation);
-        rb.AddForce(Mathf.Max(percent, 0.1f) * force * playerForward, ForceMode.Impulse);
+        rb.AddForce(Mathf.Max(percent, 0.1f) * force * transform.forward, ForceMode.Impulse);
         Destroy(rb.gameObject, 4);
+
+        GetComponent<AudioSource>().Play();
     }
 }

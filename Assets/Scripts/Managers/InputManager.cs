@@ -53,6 +53,21 @@ public static class InputManager
             myPlayer.Reload();
         };
 
+        _gameControls.InGame.SemiWeapon.started += ctx =>
+        {
+            myPlayer.SemiWeapon();
+        };
+
+        _gameControls.InGame.BurstWeapon.started += ctx =>
+        {
+            myPlayer.BurstWeapon();
+        };
+
+        _gameControls.InGame.ShotgunWeapon.started += ctx =>
+        {
+            myPlayer.ShotgunWeapon();
+        };
+        
         _gameControls.Permanent.Enable();
     }
 

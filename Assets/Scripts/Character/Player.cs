@@ -18,7 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField] private WeaponBase semiWeapon;
     [SerializeField] private WeaponBase burstWeapon;
     [SerializeField] private WeaponBase shotgunWeapon;
-    [SerializeField] private WeaponBase laserWeapon;
+
+    [SerializeField] private float recoil;
 
     [SerializeField] private int maxAmmo;
     private float currentAmmo;
@@ -156,27 +157,33 @@ public class Player : MonoBehaviour
     {
         if (currentAmmo > 0)
         {
-            --currentAmmo;
-            ++consumedAmmo;
+            Vector3 recoilVector = -transform.forward * recoil;
 
             if(selectedWeapon == 1)
             {
+                rb.AddForce(recoilVector, ForceMode.Impulse);
+
                 semiWeapon.StartShooting();
+                --currentAmmo;
+                ++consumedAmmo;
                 ammoCounter.text = currentAmmo.ToString();
             }
             else if(selectedWeapon == 2)
             {
+                rb.AddForce(recoilVector, ForceMode.Impulse);
+
                 burstWeapon.StartShooting();
+                --currentAmmo;
+                ++consumedAmmo;
                 ammoCounter.text = currentAmmo.ToString();
             }
             else if(selectedWeapon == 3)
             {
+                rb.AddForce(recoilVector, ForceMode.Impulse);
+
                 shotgunWeapon.StartShooting();
-                ammoCounter.text = currentAmmo.ToString();
-            }
-            else if(selectedWeapon == 4)
-            {
-                laserWeapon.StartShooting();
+                --currentAmmo;
+                ++consumedAmmo;
                 ammoCounter.text = currentAmmo.ToString();
             }
             
@@ -203,38 +210,53 @@ public class Player : MonoBehaviour
 
     public void Reload()
     {
-        if(reserveAmmo > 0)
+        if(consumedAmmo >= reserveAmmo)
+        {
+            currentAmmo += reserveAmmo;
+            reserveAmmo = 0;
+            consumedAmmo = 0;
+
+            ammoCounter.text = currentAmmo.ToString();
+            reserveCounter.text = reserveAmmo.ToString();
+        }
+        else if(reserveAmmo >= consumedAmmo)
         {
             currentAmmo = maxAmmo;
             reserveAmmo -= consumedAmmo;
+            consumedAmmo = 0;
+
             ammoCounter.text = currentAmmo.ToString();
             reserveCounter.text = reserveAmmo.ToString();
         }
     }
 
+    public void AddAmmo(int ammoAmount)
+    {
+        reserveAmmo += ammoAmount;
+        
+        reserveCounter.text = reserveAmmo.ToString();
+    }
+
     public void ChangeWeapon()
     {
         weaponInfo.text = currentWeapon;
+    }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            selectedWeapon = 1;
-            currentWeapon = "Semi Auto Weapon";
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            selectedWeapon = 2;
-            currentWeapon = "Burst Fire Weapon";
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            selectedWeapon = 3;
-            currentWeapon = "Shotgun Weapon";
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            selectedWeapon = 4;
-            currentWeapon = "Laser Weapon";
-        }
+    public void SemiWeapon()
+    {
+        selectedWeapon = 1;
+        currentWeapon = "Semi Auto Weapon";
+    }
+
+    public void BurstWeapon()
+    {
+        selectedWeapon = 2;
+        currentWeapon = "Burst Fire Weapon";
+    }
+
+    public void ShotgunWeapon()
+    {
+        selectedWeapon = 3;
+        currentWeapon = "Shotgun Weapon";
     }
 }
