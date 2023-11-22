@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -12,8 +13,10 @@ public class Player : MonoBehaviour
     Rigidbody rb;
 
     [Header("Weapons")]
+    public ScriptableObjects.BulletSO bulletSO;
     private float selectedWeapon;
     private string currentWeapon;
+    private string currentBullet;
     
     [SerializeField] private WeaponBase semiWeapon;
     [SerializeField] private WeaponBase burstWeapon;
@@ -30,8 +33,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jump;
 
-    private Vector2 currentRotation;
-
     [Header("Camera")]
     [SerializeField, Range(1,20)] private float mouseSensX;
     [SerializeField, Range(1,20)] private float mouseSensY;
@@ -41,31 +42,12 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Transform followTarget;
 
-    //[Header("Shooting")]
-    //[SerializeField] private Rigidbody bulletPrefab;
-    //[SerializeField] private float projectileForce;
 
     [Header("Player UI")]
-    //[SerializeField] private Image healthBar;
     [SerializeField] private TextMeshProUGUI ammoCounter;
     [SerializeField] private TextMeshProUGUI reserveCounter;
     [SerializeField] private TextMeshProUGUI weaponInfo;
-
-    //[SerializeField] private float maxHealth;
-    
-    //private float _health;
-
-    /*
-    private float Health
-    {
-        get => _health;
-        set
-        {
-            _health = value;
-            healthBar.fillAmount = _health / maxHealth;
-        }
-    }
-    */
+    [SerializeField] private TextMeshProUGUI bulletInfo;
 
     private Vector2 currentAngle;
 
@@ -86,8 +68,6 @@ public class Player : MonoBehaviour
 
         InputManager.Init(this);
         InputManager.SetGameControls();
-
-        //Health = maxHealth;
     }
 
     // Update is called once per frame
@@ -96,9 +76,9 @@ public class Player : MonoBehaviour
         transform.position += transform.rotation * (speed * Time.deltaTime * _moveDirection);
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y);
 
-        ChangeWeapon();
-
-        //Health -= Time.deltaTime * 2;
+        ChangeWeaponInfo();
+        ChangeBulletInfo();
+        ChangeBullet();
     }
 
     public void SetMovementDirection(Vector3 currentDirection)
@@ -153,6 +133,35 @@ public class Player : MonoBehaviour
         followTarget.localRotation = Quaternion.AngleAxis(currentAngle.y, Vector3.right);
     }
 
+    public void ChangeBullet()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            bulletSO.SetBulletType(ScriptableObjects.EProjectileType.Normal);
+            currentBullet = "Bullet: Normal";
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            bulletSO.SetBulletType(ScriptableObjects.EProjectileType.Water);
+            currentBullet = "Bullet: Water";
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            bulletSO.SetBulletType(ScriptableObjects.EProjectileType.Fire);
+            currentBullet = "Bullet: Fire";
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            bulletSO.SetBulletType(ScriptableObjects.EProjectileType.Light);
+            currentBullet = "Bullet: Light";
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            bulletSO.SetBulletType(ScriptableObjects.EProjectileType.Dark);
+            currentBullet = "Bullet: Dark";
+        }
+    }
+
     public void Shoot()
     {
         if (currentAmmo > 0)
@@ -186,26 +195,7 @@ public class Player : MonoBehaviour
                 ++consumedAmmo;
                 ammoCounter.text = currentAmmo.ToString();
             }
-            
-            /*
-            Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-
-            currentProjectile.AddForce(followTarget.forward * projectileForce, ForceMode.Impulse);
-
-            --currentAmmo;
-
-            ammoCounter.text = currentAmmo.ToString();
-
-            Destroy(currentProjectile.gameObject, 4);
-            */
         }
-
-        /*
-        print("I shot: " + InputManager.GetCameraRay());
-        weaponShootToggle = !weaponShootToggle;
-        if(weaponShootToggle) myWeapon.StartShooting();
-        else myWeapon.StopShooting();
-        */
     }   
 
     public void Reload()
@@ -237,9 +227,14 @@ public class Player : MonoBehaviour
         reserveCounter.text = reserveAmmo.ToString();
     }
 
-    public void ChangeWeapon()
+    public void ChangeWeaponInfo()
     {
         weaponInfo.text = currentWeapon;
+    }
+
+    public void ChangeBulletInfo()
+    {
+        bulletInfo.text = currentBullet;
     }
 
     public void SemiWeapon()
